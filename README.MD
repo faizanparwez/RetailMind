@@ -74,3 +74,51 @@ Although Random Forest and SVM achieved better accuracy, precision and ROC-AUC, 
 
 ### Observation
 The Day 1 Logistic Regression baseline outperformed all three Day 2 models on the evaluated metrics. This demonstrates that more complex algorithms do not necessarily guarantee better performance.
+
+## Day 3 — Hyperparameter Tuning and Bias-Variance Analysis
+
+### Objective
+Tune Decision Tree, Random Forest and Support Vector Machine (SVM) models using GridSearchCV and evaluate them using 5-fold stratified cross-validation.
+
+### Model Comparison
+
+| Model | Training Recall | Cross-Validation Recall |
+|---|---:|---:|
+| Decision Tree | 55.17% | 51.37% |
+| Random Forest | 60.84% | 51.77% |
+| SVM | 53.34% | 53.38% |
+
+### Champion Model: SVM
+
+SVM was selected as the Day 3 champion because it achieved the highest cross-validation recall of 53.38%.
+
+### Final Test Set Evaluation
+
+| Metric | Score |
+|---|---:|
+| Accuracy | 78.78% |
+| Precision | 61.76% |
+| Recall | 52.67% |
+| ROC-AUC | 82.46% |
+
+### Bias-Variance Analysis
+
+The learning curve shows that training and validation recall gradually converge as the training dataset increases.
+
+The small difference between the final training and validation scores suggests limited overfitting. However, the relatively modest recall indicates potential underfitting or limitations in the current feature set.
+
+Further feature engineering and model tuning may improve performance.
+
+### Hyperparameter Tuning
+
+GridSearchCV was used with 5-fold StratifiedKFold cross-validation. The models were tuned using recall as the scoring metric, with `"Yes"` designated as the positive class.
+
+The best hyperparameters for each model were identified and printed during execution.
+
+### Model Artifact
+
+`models/churn_v3.joblib`
+
+### Learning Curve
+
+`models/churn_v3_learning_curve.png`
