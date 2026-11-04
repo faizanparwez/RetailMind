@@ -122,3 +122,62 @@ The best hyperparameters for each model were identified and printed during execu
 ### Learning Curve
 
 `models/churn_v3_learning_curve.png`
+
+
+## Day 4 — Feature Engineering and Ensemble Learning
+
+### Objective
+Improve customer churn prediction through domain-specific feature engineering, PCA dimensionality reduction, and ensemble learning.
+
+### Feature Engineering
+The following features were added:
+- Tenure groups: categorised customers based on subscription duration.
+- Average monthly charge: calculated using total charges and tenure.
+- Service count: calculated the number of subscribed services.
+- Contract flags: identified month-to-month, one-year and two-year contracts.
+- Customer flags: identified online security, technical support and dependents.
+
+Total features after engineering: 28.
+
+### Dimensionality Reduction
+Applied Principal Component Analysis (PCA) to numerical features, retaining 95.45% of their explained variance.
+
+### Ensemble Models
+- Random Forest: Bagging ensemble.
+- XGBoost: Boosting ensemble.
+
+Both models were compared against the Day 3 SVM champion using the same train-test split.
+
+### Day 4 Model Comparison
+
+| Model | Accuracy | Precision | Recall | ROC-AUC |
+|---|---:|---:|---:|---:|
+| Day 3 SVM | 78.78% | 61.76% | 52.67% | 82.46% |
+| Random Forest | 76.79% | 54.87% | 70.86% | 83.60% |
+| XGBoost | 75.16% | 52.20% | 76.20% | 83.75% |
+
+### Final Champion: XGBoost
+
+XGBoost was selected as the final champion because it achieved the highest recall (76.20%) and ROC-AUC (83.75%) among the evaluated models.
+
+Compared with the Day 3 SVM, recall improved by 23.53 percentage points.
+
+The lower precision and accuracy represent a trade-off: the model identifies more potential churners but also produces more false-positive predictions.
+
+### Cumulative Model Baseline
+
+| Day | Model | Accuracy | Precision | Recall | ROC-AUC |
+|---|---|---:|---:|---:|---:|
+| Day 1 | Logistic Regression | 80.55% | 65.72% | 55.88% | 84.21% |
+| Day 2 | Decision Tree | 72.11% | 47.55% | 49.20% | 64.77% |
+| Day 3 | SVM | 78.78% | 61.76% | 52.67% | 82.46% |
+| Day 4 | XGBoost | 75.16% | 52.20% | 76.20% | 83.75% |
+
+### Production Model Artifact
+
+`models/churn_production.joblib`
+
+The saved pipeline includes the fitted preprocessing steps and XGBoost classifier, allowing predictions on raw customer features without manually repeating preprocessing.
+
+### Phase 1 Milestone
+Completed the initial churn prediction pipeline, model comparison, hyperparameter tuning, feature engineering, dimensionality reduction and ensemble learning.
