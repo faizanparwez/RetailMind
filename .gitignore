@@ -1,0 +1,19 @@
+# Dataset
+data/
+
+# Trained models
+models/*.keras
+models/*.joblib
+
+# Generated evaluation files
+models/*.csv
+models/*.png
+models/*.txt
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
