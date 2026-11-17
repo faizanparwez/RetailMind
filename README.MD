@@ -472,3 +472,72 @@ for forecasting.
 ### Next Step
 Extend the forecasting module to multi-horizon prediction
 using Seq2Seq architecture and attention.
+
+
+
+## Day 10 — Seq2Seq & Attention Demand Forecasting
+
+### Objective
+Extend the Day 9 demand forecasting module from single-step
+prediction to multi-horizon forecasting using Seq2Seq and attention.
+
+### Dataset
+Store Item Demand Forecasting Challenge (Kaggle).
+
+Selected the 20 highest-selling store-item combinations.
+
+### Data Preparation
+- Aggregated sales into daily time series.
+- Filled missing dates with zero sales.
+- Normalized each series using its training-period maximum.
+- Historical input window: 30 days.
+- Forecast horizon: 7 days.
+- Reserved the most recent 28 days for testing.
+
+### Model Architecture
+
+**Encoder**
+- LSTM with 64 units.
+- Returns historical sequence outputs and hidden states.
+
+**Attention**
+- Keras Attention layer.
+- Decoder outputs attend to encoder outputs.
+- Context vectors combined with decoder representations.
+
+**Decoder**
+- RepeatVector for seven forecast steps.
+- LSTM with 64 units.
+- Dense layer with 32 ReLU units.
+- Dense output layer for daily demand.
+
+### Baseline Comparison
+Compared:
+- Single-step LSTM with recursive seven-day predictions.
+- Seq2Seq LSTM with attention and seven-day output.
+
+### Evaluation
+
+| Model | MAE | RMSE |
+|---|---|---|
+| Single-step LSTM | Add result | Add result |
+| Seq2Seq Attention | Add result | Add result |
+
+### Outputs
+- `models/day10_single_step_baseline.keras`
+- `models/demand_seq2seq_attention.keras`
+- `outputs/day10/multi_horizon_predictions.csv`
+- `outputs/day10/model_comparison.csv`
+- `outputs/day10/attention_weights.svg`
+
+### Key Learning
+- Sequence-to-sequence learning.
+- Encoder-decoder architecture.
+- Multi-horizon forecasting.
+- Attention mechanisms.
+- Attention weight visualization.
+- Recursive forecasting vs direct multi-step forecasting.
+
+### Next Step
+Explore GAN/VAE-based synthetic product image generation
+to balance rare catalog categories.
