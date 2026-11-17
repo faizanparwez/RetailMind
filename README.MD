@@ -284,3 +284,128 @@ Developed a Convolutional Neural Network (CNN) to automatically classify retail 
 
 ### Outcome
 Successfully developed and saved the first computer vision module of RetailMind AI. The CNN achieved 82.53% test accuracy on the product image classification task.
+
+
+## Day 7 — Transfer Learning & Object Detection
+
+### Objective
+Improve fashion product classification using transfer learning with a pretrained convolutional neural network.
+
+### Features
+
+1. **Transfer Learning with VGG16**
+   - Uses VGG16 pretrained on ImageNet.
+   - Removes the original classification head.
+   - Adds a custom classification head for fashion product categories.
+
+2. **Feature Extraction**
+   - Freezes the pretrained VGG16 layers.
+   - Trains the newly added classification layers.
+
+3. **Fine-Tuning**
+   - Unfreezes the final VGG16 convolutional block.
+   - Uses a lower learning rate to fine-tune pretrained features.
+
+4. **Model Evaluation**
+   - Evaluates the model on the held-out test dataset.
+   - Compares transfer-learning performance with the Day 6 CNN.
+
+### Technologies
+- TensorFlow / Keras
+- VGG16
+- ImageNet pretrained weights
+
+### Main File
+`src/day7_transfer_learning.py`
+
+### Model Architecture
+
+- Pretrained VGG16 (without original classification head)
+- Global Average Pooling
+- Dense layer (256 units, ReLU)
+- Dropout (0.4)
+- Softmax classification output
+
+### Training Strategy
+
+**Phase 1 — Feature Extraction**
+- Freeze pretrained VGG16 layers.
+- Train the custom classification head.
+
+**Phase 2 — Fine-Tuning**
+- Unfreeze the final convolutional block.
+- Continue training with a smaller learning rate.
+
+### YOLO Object Detection
+
+YOLO-based object detection was postponed following the training instructions because of the additional bounding-box annotation requirements.
+
+### Day 7 Deliverable
+A transfer-learning-based fashion product classification pipeline using pretrained VGG16, with feature extraction and fine-tuning stages.
+
+### Status
+Implementation created. Full training and final performance evaluation remain pending.
+
+
+## Day 8 — Segmentation & End-to-End Computer Vision
+
+### Objective
+Build an explainable computer-vision module for fashion product catalog images.
+
+### Features
+
+1. **Product Classification**
+   - Reuses the trained Day 6 CNN model.
+   - Predicts the product category and confidence score.
+
+2. **Image Segmentation**
+   - Uses OpenCV GrabCut to separate the product from its background.
+   - Generates a binary foreground mask.
+
+3. **Background Removal**
+   - Removes the original background.
+   - Composites the extracted product onto a uniform white background.
+
+4. **Product Detection**
+   - Extracts the product's bounding box from the segmentation mask.
+   - YOLO-based detection remains postponed.
+
+5. **Grad-CAM Explainability**
+   - Generates activation heatmaps from the CNN's final convolutional layer.
+   - Highlights image regions influencing classification predictions.
+
+### Technologies
+- TensorFlow / Keras
+- OpenCV
+- NumPy
+
+### Main File
+`src/day8_cv_module.py`
+
+### Model Dependency
+`models/retailmind_cnn.keras`
+
+### Output Structure
+
+```text
+outputs/
+└── day8/
+    ├── segmented/
+    │   ├── *_clean.jpg
+    │   └── *_mask.png
+    └── gradcam/
+        └── *_gradcam.jpg
+```
+
+### Methodology
+The segmentation pipeline uses OpenCV GrabCut rather than a supervised U-Net because the Fashion Product Images dataset does not include pixel-level segmentation masks.
+
+Grad-CAM provides visual explanations of classification predictions.
+
+### Limitations
+- GrabCut may not perfectly separate products with complex backgrounds.
+- Bounding boxes are derived from segmentation masks rather than an independent object detector.
+- Grad-CAM explains classification decisions and does not validate segmentation accuracy.
+
+### Day 8 Deliverable
+An integrated computer-vision module combining product classification, segmentation, background removal, bounding-box extraction, and explainability.
