@@ -409,3 +409,66 @@ Grad-CAM provides visual explanations of classification predictions.
 
 ### Day 8 Deliverable
 An integrated computer-vision module combining product classification, segmentation, background removal, bounding-box extraction, and explainability.
+
+
+
+## Day 9 — RNN / LSTM Demand Forecasting
+
+### Objective
+Build an LSTM-based demand forecasting module to predict
+daily product demand and support retail inventory planning.
+
+### Dataset
+Store Item Demand Forecasting Challenge (Kaggle).
+
+Selected the 20 highest-selling store-item combinations
+for forecasting.
+
+### Data Preparation
+- Aggregated sales into daily time series using pandas.
+- Filled missing dates with zero sales.
+- Normalized each store-item series using its training-period maximum.
+- Used a 30-day look-back window to predict next-day sales.
+- Reserved the most recent 28 days for testing.
+
+### Model Architecture
+- Input: 30 daily observations
+- LSTM: 64 units, return_sequences=True
+- Dropout: 20%
+- LSTM: 32 units
+- Dense: 16 units, ReLU
+- Output: 1 unit
+
+### Training Configuration
+- Optimizer: Adam
+- Loss: Mean Absolute Error (MAE)
+- Batch size: 64
+- Maximum epochs: 30
+- Early stopping: validation loss, patience 5
+
+### Evaluation
+
+| Metric | Result |
+|---|---|
+| MAE | Add actual result |
+| RMSE | Add actual result |
+
+### Outputs
+- `models/demand_forecaster.keras`
+- `outputs/day9/test_predictions.csv`
+- `outputs/day9/evaluation_metrics.csv`
+- `outputs/day9/next_day_forecast.csv`
+- `outputs/day9/series_metadata.csv`
+- `outputs/day9/actual_vs_predicted.svg`
+
+### Key Learning
+- Time-series forecasting
+- Sliding-window supervised learning
+- LSTM sequence modelling
+- Time-based train/test splitting
+- MAE and RMSE evaluation
+- Demand forecasting for inventory planning
+
+### Next Step
+Extend the forecasting module to multi-horizon prediction
+using Seq2Seq architecture and attention.
