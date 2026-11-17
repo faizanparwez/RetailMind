@@ -541,3 +541,101 @@ Compared:
 ### Next Step
 Explore GAN/VAE-based synthetic product image generation
 to balance rare catalog categories.
+
+
+## Day 11 — GANs & VAEs: Synthetic Fashion Image Augmentation
+
+### Objective
+Generate synthetic product images using a Generative Adversarial Network (GAN) to augment under-represented fashion categories and improve the balance of the RetailMind computer vision dataset.
+
+### Dataset
+**Fashion Product Images (Kaggle)**
+
+Dataset location:
+- `data/fashion-product-images-small/styles.csv`
+- `data/fashion-product-images-small/images/`
+
+Category information is extracted from `articleType` (or `masterCategory` if unavailable) in `styles.csv`.
+
+### Approach
+Implemented a DCGAN-style architecture consisting of two neural networks:
+
+**1. Generator**
+- Takes random noise as input.
+- Latent dimension: 100.
+- Uses Dense and Conv2DTranspose layers.
+- Batch Normalization and LeakyReLU activation.
+- Generates 64 × 64 RGB product images.
+- Uses Tanh activation in the output layer.
+
+**2. Discriminator**
+- Receives real and generated images.
+- Uses Conv2D layers with LeakyReLU activation.
+- Dropout: 0.3.
+- Final Dense layer produces a real/fake score.
+
+### Training Configuration
+
+| Parameter | Value |
+|---|---|
+| Framework | TensorFlow / Keras |
+| Image size | 64 × 64 |
+| Channels | 3 (RGB) |
+| Latent dimension | 100 |
+| Batch size | 32 |
+| Epochs | 100 |
+| Optimizer | Adam |
+| Learning rate | 0.0002 |
+| Beta 1 | 0.5 |
+| Loss | Binary Crossentropy |
+| Default synthetic images | 500 |
+
+### Data Preprocessing
+- Loaded category metadata from `styles.csv`.
+- Matched product IDs with their corresponding image files.
+- Identified category distribution to locate under-represented categories.
+- Resized images to 64 × 64 pixels.
+- Normalized pixel values from [0, 255] to [-1, 1].
+- Created a shuffled TensorFlow dataset.
+
+### GAN Training
+Implemented a custom Keras training loop using `GradientTape`.
+
+Each training step:
+1. Generates fake images from random noise.
+2. Trains the discriminator using real and generated images.
+3. Trains the generator to produce images that fool the discriminator.
+4. Tracks generator and discriminator losses.
+
+### Synthetic Image Generation
+- Automatically selects the smallest category by default.
+- Supports manually selecting a category through command-line arguments.
+- Generates synthetic product images using the trained generator.
+- Saves generated images in PNG format.
+
+### Model and Output Files
+
+**Saved model:**
+- `models/day11_generator.keras`
+
+**Generated images:**
+- `data/fashion-product-images-small/synthetic_images/<category>/`
+
+**Run metadata:**
+- `data/fashion-product-images-small/synthetic_images/day11_run_metadata.csv`
+
+### Key Learning
+- Generative Adversarial Networks (GANs).
+- Generator and discriminator architecture.
+- Transposed convolution for image generation.
+- Latent space representation.
+- Adversarial training using GradientTape.
+- Synthetic image generation and dataset augmentation.
+
+### Important Observation
+Generated images must be visually inspected for realism and mode collapse before being added to the original training dataset.
+
+The generated images have not yet been integrated into the Day 6/7 classifier, and the impact on per-class accuracy remains to be evaluated.
+
+### Next Step
+Begin text intelligence by cleaning product reviews and developing a classical sentiment analysis baseline.
